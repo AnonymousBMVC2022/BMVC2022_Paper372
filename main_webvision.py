@@ -146,7 +146,7 @@ def main():
     args = parser.parse_args()
     seed_everything(args.seed)
     if args.run_path is None:
-        args.run_path = f'{args.dataset}_{args.theta_s}_{args.theta_r}_{args.k}_{args.sampler}_{args.sample_selection}'
+        args.run_path = f'Dataset(webvision_Model({args.theta_r}_{args.theta_s})'
     global logger
     logger = wandb.init(project='webvision', entity='mrchenfeng', name=args.run_path)
     logger.config.update(args)

@@ -3,6 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="156de937-336c-475e-9276-17e1262d760e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_cifar.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_cifar.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_clothing1m.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_clothing1m.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_webvision.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_webvision.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,7 +119,7 @@
       <workItem from="1658320682827" duration="1124000" />
       <workItem from="1658327084254" duration="7285000" />
       <workItem from="1658475808436" duration="7649000" />
-      <workItem from="1658540515620" duration="1683000" />
+      <workItem from="1658540515620" duration="1927000" />
     </task>
     <servers />
   </component>

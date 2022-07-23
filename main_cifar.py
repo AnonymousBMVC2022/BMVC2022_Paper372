@@ -170,11 +170,11 @@ def evaluate(dataloader, encoder, classifier, args, noisy_label, clean_label, i,
 
 def main():
     args = parser.parse_args()
+    seed_everything(args.seed)
     if args.run_path is None:
         args.run_path = f'Dataset({args.dataset}_{args.noise_ratio}_{args.open_ratio}_{args.noise_mode})_Model({args.theta_r}_{args.theta_s})'
 
     os.environ['CUDA_VISIBLE_DEVICES'] = args.gpuid
-    torch.backends.cudnn.benchmark = True
     global logger
     logger = wandb.init(project=args.dataset, entity='mrchenfeng', name=args.run_path, group=args.dataset)
     logger.config.update(args)

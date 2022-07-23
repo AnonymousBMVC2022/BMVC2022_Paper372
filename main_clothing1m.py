@@ -150,20 +150,13 @@ def evaluate(dataloader, model, classifier, args):
 
 def main():
     args = parser.parse_args()
-    # data loading
-    random.seed(args.seed)
-    torch.manual_seed(args.seed)
-    torch.cuda.manual_seed_all(args.seed)
-    np.random.seed(args.seed)
-    torch.backends.cudnn.benchmark = True
-    
+    seed_everything(args.seed)
+    if args.run_path is None:
+        args.run_path = f'Dataset(clothing1m_Model({args.theta_r}_{args.theta_s})'
+
     global logger
     logger = wandb.init(project='ssr_clothing1m', entity='mrchenfeng', name=args.run_path)
     logger.config.update(args)
-    random.seed(args.seed)
-    torch.manual_seed(args.seed)
-    torch.cuda.manual_seed_all(args.seed)
-    torch.backends.cudnn.benchmark = True
     os.environ['CUDA_VISIBLE_DEVICES'] = args.gpuid
 
     args.num_classes = 14
