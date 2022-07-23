@@ -12,9 +12,8 @@ from models.preresnet import PreResNet18
 from utils import *
 
 parser = argparse.ArgumentParser('Train with synthetic cifar noisy dataset')
-parser.add_argument('--dataset_path', default='/import/nobackup_mmv_ioannisp/fc312/datasets/CIFAR/CIFAR10', help='dataset path')
-parser.add_argument('--noisy_dataset_path', default='/import/nobackup_mmv_ioannisp/fc312/datasets/CIFAR/CIFAR100',
-                    help='open-set noise dataset path')
+parser.add_argument('--dataset_path', default='~/CIFAR/CIFAR10', help='dataset path')
+parser.add_argument('--noisy_dataset_path', default='~/CIFAR/CIFAR100', help='open-set noise dataset path')
 parser.add_argument('--dataset', default='cifar10', help='dataset name')
 parser.add_argument('--noisy_dataset', default='cifar100', help='open-set noise dataset name')
 
@@ -38,6 +37,7 @@ parser.add_argument('--momentum', default=0.9, type=float, metavar='M', help='mo
 parser.add_argument('--weight_decay', default=5e-4, type=float, help='weight decay (default: 5e-4)')
 parser.add_argument('--seed', default=3047, type=int, help='seed for initializing training. (default: 3047)')
 parser.add_argument('--gpuid', default='0', type=str, help='Selected GPU (default: "0")')
+parser.add_argument('--entity', type=str, help='Wandb user entity')
 parser.add_argument('--run_path', type=str, help='run path containing all results')
 
 
@@ -176,7 +176,7 @@ def main():
 
     os.environ['CUDA_VISIBLE_DEVICES'] = args.gpuid
     global logger
-    logger = wandb.init(project=args.dataset, entity='mrchenfeng', name=args.run_path, group=args.dataset)
+    logger = wandb.init(project=args.dataset, entity=args.entity, name=args.run_path, group=args.dataset)
     logger.config.update(args)
 
     # generate noisy dataset with our transformation

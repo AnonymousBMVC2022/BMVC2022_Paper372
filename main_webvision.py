@@ -11,7 +11,7 @@ from models.inceptionresnetv2 import InceptionResNetV2
 from utils import *
 
 parser = argparse.ArgumentParser('Train with Webvision dataset')
-parser.add_argument('--dataset_path', default='/import/nobackup_mmv_ioannisp/fc312/datasets/WebVision/', help=f'model architecture (default: PreResNet18)')
+parser.add_argument('--dataset_path', default='~/WebVision/', help=f'model architecture (default: PreResNet18)')
 
 # model settings
 parser.add_argument('--lambda_fc', default=1, type=float, metavar='N', help='weight of unlabeled data (default: 1)')
@@ -28,6 +28,7 @@ parser.add_argument('--weight_decay', default=1e-4, type=float, help='weight dec
 parser.add_argument('--seed', default=3047, type=int, help='seed for initializing training. (default: 3047)')
 parser.add_argument('--parallel', default=0, action='store_true', help='Multi-GPU training (default: False)')
 parser.add_argument('--gpuid', default='0', type=str, help='Selected GPU (default: "0")')
+parser.add_argument('--entity', type=str, help='Wandb user entity')
 parser.add_argument('--run_path', type=str, help='run path containing all results')
 
 
@@ -148,7 +149,7 @@ def main():
     if args.run_path is None:
         args.run_path = f'Dataset(webvision_Model({args.theta_r}_{args.theta_s})'
     global logger
-    logger = wandb.init(project='webvision', entity='mrchenfeng', name=args.run_path)
+    logger = wandb.init(project='webvision', entity=args.entity, name=args.run_path)
     logger.config.update(args)
     os.environ['CUDA_VISIBLE_DEVICES'] = args.gpuid
     # generate noisy dataset with our transformation

@@ -13,8 +13,7 @@ import time
 import wandb
 
 parser = argparse.ArgumentParser('Train with Clothing1M dataset')
-parser.add_argument('--dataset_path', metavar='data', default='/import/nobackup_mmv_ioannisp/fc312/datasets/Clothing1M',
-                    help='dataset path')
+parser.add_argument('--dataset_path', metavar='data', default='~/Clothing1M', help='dataset path')
 
 # model settings
 parser.add_argument('--theta_s', default=1, type=float, help='Initial threshold for voted correct samples (default: 1)')
@@ -31,6 +30,7 @@ parser.add_argument('--weight_decay', default=1e-3, type=float, help='weight dec
 parser.add_argument('--seed', default=3047, type=int, help='seed for initializing training. (default: 3047)')
 parser.add_argument('--parallel', default=0, action='store_true', help='Multi-GPU training (default: False)')
 parser.add_argument('--gpuid', default='0', type=str, help='Selected GPU (default: "0")')
+parser.add_argument('--entity', type=str, help='Wandb user entity')
 parser.add_argument('--run_path', type=str, help='run path containing all results')
 
 
@@ -155,7 +155,7 @@ def main():
         args.run_path = f'Dataset(clothing1m_Model({args.theta_r}_{args.theta_s})'
 
     global logger
-    logger = wandb.init(project='ssr_clothing1m', entity='mrchenfeng', name=args.run_path)
+    logger = wandb.init(project='ssr_clothing1m', entity=args.entity, name=args.run_path)
     logger.config.update(args)
     os.environ['CUDA_VISIBLE_DEVICES'] = args.gpuid
 
