@@ -52,6 +52,3 @@ For brevity of this repo, we provide a modified `builder.py` which can be utiliz
 
 ### License
 This project is licensed under the terms of the MIT license.
-
-### Acknowledgement
-This work was supported by the EU H2020 [AI4Media](https://www.ai4media.eu/) No. 951911 project.
