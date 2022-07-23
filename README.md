@@ -28,7 +28,7 @@ python main_cifar.py --theta_r 0.8 --noise_mode sym --noise_ratio 0.5 --dataset 
 python main_cifar.py --theta_r 0.9 --noise_mode sym --noise_ratio 0.2 --dataset cifar100 --dataset_path path_to_cifar100
 ```
 
-For users who are not familiar with wandb, please try main_cifar_simple.py with same config.
+For users who are not familiar with wandb, please try `main_cifar_simple.py` with same config.
 
 
 ### Results
