@@ -1,4 +1,4 @@
-## ASCL: Adaptive Soft Contrastive Learning
+## SSR: An Efficient and Robust Framework for Learning with Unknown Label Noise
 
 <p align="center">
     <img src="./sources/method.png" alt="drawing" width="800"/>
