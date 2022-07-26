@@ -9,7 +9,6 @@ from torchvision.models import resnet50, resnet18
 from datasets.dataloader_clothing1m import clothing_dataset
 from utils import *
 import torch.nn as nn
-import time
 import wandb
 
 parser = argparse.ArgumentParser('Train with Clothing1M dataset')
@@ -34,7 +33,7 @@ parser.add_argument('--entity', type=str, help='Wandb user entity')
 parser.add_argument('--run_path', type=str, help='run path containing all results')
 
 
-def train(labeled_trainloader, modified_label, all_trainloader, encoder, classifier, proj_head, pred_head, optimizer, epoch, args):
+def train(labeled_trainloader, all_trainloader, encoder, classifier, proj_head, pred_head, optimizer, epoch, args):
     encoder.train()
     classifier.train()
     proj_head.train()
@@ -52,8 +51,7 @@ def train(labeled_trainloader, modified_label, all_trainloader, encoder, classif
 
         # cross-entropy training with mixup
         batch_size = inputs_x1.size(0)
-        inputs_x1, inputs_x2 = inputs_x1.cuda(), inputs_x2.cuda()
-        labels_x = modified_label[index]
+        inputs_x1, inputs_x2, labels_x = inputs_x1.cuda(), inputs_x2.cuda(), labels_x.cuda()
         targets_x = torch.zeros(batch_size, args.num_classes, device=inputs_x1.device).scatter_(1, labels_x.view(-1, 1), 1)
         l = np.random.beta(0.5, 0.5)
         l = max(l, 1 - l)
@@ -162,9 +160,6 @@ def main():
     args.num_classes = 14
     # use pretrained encoder
     encoder = resnet50(pretrained=True)
-    # encoder = resnet50()
-    # encoder = resnet18()
-    # encoder = resnet18(pretrained=True)
 
     # ######################################################################################
     dim = encoder.fc.in_features
@@ -176,8 +171,6 @@ def main():
             nn.init.constant_(m.bias, 0)
 
     classifier = torch.nn.Linear(dim, args.num_classes)
-    # classifier = encoder.fc
-
     # replace original linear layer
     encoder.fc = torch.nn.Identity()
     proj_head = torch.nn.Sequential(torch.nn.Linear(dim, 512),
@@ -188,10 +181,7 @@ def main():
                                     torch.nn.BatchNorm1d(512),
                                     torch.nn.ReLU(),
                                     torch.nn.Linear(512, 512))    
-    # pred_head = torch.nn.Sequential(torch.nn.Linear(2048, 512),
-    #                                 torch.nn.BatchNorm1d(512),
-    #                                 torch.nn.ReLU(),
-    #                                 torch.nn.Linear(512, 2048))
+
     classifier.apply(init_weights)
     proj_head.apply(init_weights)
     pred_head.apply(init_weights)
@@ -289,7 +279,7 @@ def main():
         all_data = clothing_dataset(root_dir=args.dataset_path, transform=MixTransform(strong_transform, weak_transform, 1), dataset_mode='all', paths=paths)
         all_loader = torch.utils.data.DataLoader(all_data, batch_size=args.batch_size, num_workers=4, shuffle=True)#, drop_last=True)
 
-        train(labeled_loader, modified_label, all_loader, encoder, classifier, proj_head, pred_head, optimizer, i, args)
+        train(labeled_loader, all_loader, encoder, classifier, proj_head, pred_head, optimizer, i, args)
 
         stat_logs.write(
             f'Epoch [{i}/{args.epochs}]: clean samples: {len(clean_id)}, noisy samples: {len(noisy_id)}\n')

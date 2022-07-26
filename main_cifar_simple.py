@@ -2,7 +2,6 @@ import argparse
 
 import torch.optim.lr_scheduler
 import torchvision.transforms as transforms
-import wandb
 from torch.optim import SGD
 from torch.utils.data import Subset
 from tqdm import tqdm
